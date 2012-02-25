@@ -8,10 +8,6 @@ get '/' do
   
 end
 
-get '/:album_id' do
-  erb :photo_hack 
-end
-
 get '/processing_tests' do
   erb :processing_tests
 end
@@ -19,4 +15,14 @@ end
 
 get '/svg' do
   erb :svg
+end
+
+get '/voronoi' do
+
+  erb :voronoi 
+  
+end
+
+get '/:album_id' do
+  erb :photo_hack 
 end
