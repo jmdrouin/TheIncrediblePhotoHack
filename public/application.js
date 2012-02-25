@@ -46,8 +46,10 @@ function addPhotos(data) {
     photo.comments = photoRaw.totalComments;
     photos[photoRaw.id] = photo;
     localStorage.setItem( photoRaw.id, JSON.stringify(photo));
-    $(document.createElement("img"))
-      .attr({ src: photo.photoUrl, id: photoRaw.id })
-      .prependTo('#photos')
+    if($('#'+photo.id).size()==0) {
+      $(document.createElement("img"))
+        .attr({ src: photo.photoUrl, id: photoRaw.id })
+        .prependTo('#photos')
+    }
   }
 }
