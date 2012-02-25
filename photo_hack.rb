@@ -3,7 +3,11 @@ require 'sinatra'
 require "sinatra/reloader" if development?
 
 get '/' do
-
+  params[:album_id] = 125363
   erb :photo_hack 
   
+end
+
+get '/:album_id' do
+  erb :photo_hack 
 end
