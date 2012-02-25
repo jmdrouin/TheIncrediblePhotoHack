@@ -12,3 +12,8 @@ end
 get '/processing_tests' do
   erb :processing_tests
 end
+
+
+get '/svg' do
+  erb :svg
+end

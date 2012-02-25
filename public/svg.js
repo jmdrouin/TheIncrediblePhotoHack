@@ -1,5 +1,5 @@
 (function() {
-  var SvgView, View, WindowView,
+  var PhotoView, SvgView, View, WindowView,
     __hasProp = Object.prototype.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
@@ -46,6 +46,21 @@
     return SvgView;
 
   })(View);
+
+  PhotoView = (function(_super) {
+
+    __extends(PhotoView, _super);
+
+    function PhotoView(file, attributes, keep_low) {
+      this.file = file;
+      this.keep_low = keep_low != null ? keep_low : false;
+      attributes['xlink:href'] = this.file;
+      PhotoView.__super__.constructor.call(this, 'image', attributes, this.keep_low);
+    }
+
+    return PhotoView;
+
+  })(SvgView);
 
   WindowView = (function(_super) {
 

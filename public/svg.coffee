@@ -15,6 +15,11 @@ class SvgView extends View
         element = document.createElementNS("http://www.w3.org/2000/svg", @type);
         super(element, attributes, @keep_low);
 
+class PhotoView extends SvgView
+    constructor: (@file, attributes, @keep_low=false) ->
+        attributes['xlink:href'] = @file
+        super('image', attributes, @keep_low)
+
 class WindowView extends View
     constructor: ->
         super(window)
@@ -30,6 +35,8 @@ class WindowView extends View
         p = new SvgView('circle', attributes)
         p.insert(@root)
 
+
 this.load = (event) ->
     new WindowView
+
 
