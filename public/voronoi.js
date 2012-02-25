@@ -1,4 +1,4 @@
-var w = 960, h = 500;
+var w = document.body.clientWidth - 2, h = document.body.clientHeight - 2;
 var IMAGES_BEING_DISPLAYED = 20;
 var MIN_DISTANCE = 100;
 
