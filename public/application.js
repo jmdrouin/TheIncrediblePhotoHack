@@ -19,6 +19,10 @@ function loadPhotos () {
       addPhotos(data);
       round += 1;
       orderPhotos();
+      $('.photo').attr("xlink:href", function(i,d) {
+        return photos[photo_keys[i+3]].photoUrl
+      });
+
     },
     complete: function() {
       setTimeout(loadPhotos, 120000);
@@ -29,8 +33,9 @@ function loadPhotos () {
   })
 }
 
+var photo_keys = [];
+
 function orderPhotos() {
-  var photo_keys = [];
   for (var k in photos)photo_keys.push(k);
   photo_keys.sort(function(a,b){return photos[a].likes - photos[b].likes}).reverse();
   localStorage.setItem('photos_sorted', JSON.stringify(photo_keys));
@@ -46,10 +51,5 @@ function addPhotos(data) {
     photo.comments = photoRaw.totalComments;
     photos[photoRaw.id] = photo;
     localStorage.setItem( photoRaw.id, JSON.stringify(photo));
-    if($('#'+photo.id).size()==0) {
-      $(document.createElement("img"))
-        .attr({ src: photo.photoUrl, id: photoRaw.id })
-        .prependTo('#photos')
-    }
   }
 }

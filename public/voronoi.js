@@ -1,5 +1,6 @@
 var w = document.body.clientWidth - 2, h = document.body.clientHeight - 2;
-var IMAGES_BEING_DISPLAYED = 20;
+
+var IMAGES_BEING_DISPLAYED = 21;
 var MIN_DISTANCE = 100;
 
 //var vertices = d3.range(30).map(function(d) {
@@ -34,11 +35,19 @@ svg.selectAll("path")
       .attr("class", function(d, i) { return i ? "q" + (i % 9) + "-9" : null; })
       .attr("d", function(d) { return "M" + d.join("L") + "Z"; });
 
+
 var count = 1;
 $('.photo')
   .attr({height:h, width:w})
   .attr("clip-path", function(d,i) {return "url(#id"+ (count++) +")" })
   .prependTo('#root');
+
+
+svg.selectAll("circle")
+    .data(vertices.slice(1))
+  .enter().append("circle")
+    .attr("transform", function(d) { return "translate(" + d + ")"; })
+    .attr("r", 20);
 
 
 function update() {
