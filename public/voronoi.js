@@ -8,7 +8,7 @@ var MIN_DISTANCE = 100;
 
 var vertices = [];
 for(var i = 0; i < IMAGES_BEING_DISPLAYED; i++) {
-	new_point = [Math.random() * w, Math.random() * h];
+	var new_point = [Math.random() * w, Math.random() * h];
 	var min_dist = 1000;
 	for(var i in vertices) {
 		var distance = Math.sqrt((new_point[0] - vertices[i][0]) * (new_point[0] - vertices[i][0]) + (new_point[1] - vertices[i][1]) * (new_point[1] - vertices[i][1]));
@@ -20,27 +20,26 @@ for(var i = 0; i < IMAGES_BEING_DISPLAYED; i++) {
 var svg = d3.select("#chart")
   .append("svg")
     .attr("width", w)
+    .attr("id", "root")
     .attr("height", h)
     .attr("class", "PiYG")
     .on("mousemove", update);
 
+
 svg.selectAll("path")
     .data(d3.geom.voronoi(vertices))
-  .enter().append("path")
-    .attr("class", function(d, i) { return i ? "q" + (i % 9) + "-9" : null; })
-    .attr("d", function(d) { return "M" + d.join("L") + "Z"; });
+  .enter().append("clipPath")
+    .attr("id", function(d, i) { return i ? "id" + i : null; })
+    .append("path")
+      .attr("class", function(d, i) { return i ? "q" + (i % 9) + "-9" : null; })
+      .attr("d", function(d) { return "M" + d.join("L") + "Z"; });
 
-svg.selectAll("circle")
-    .data(vertices.slice(1))
-  .enter().append("circle")
-    .attr("transform", function(d) { return "translate(" + d + ")"; })
-    .attr("r", 2);
+var count = 1;
+$('.photo')
+  .attr({height:h, width:w})
+  .attr("clip-path", function(d,i) {return "url(#id"+ (count++) +")" })
+  .prependTo('#root');
+
 
 function update() {
-  vertices[0] = d3.mouse(this);
-  svg.selectAll("path")
-      .data(d3.geom.voronoi(vertices)
-      .map(function(d) { return "M" + d.join("L") + "Z"; }))
-      .filter(function(d) { return this.getAttribute("d") != d; })
-      .attr("d", function(d) { return d; });
 }
