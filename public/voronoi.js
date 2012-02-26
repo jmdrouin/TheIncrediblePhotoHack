@@ -3,7 +3,7 @@ var w = document.body.clientWidth - 2, h = document.body.clientHeight - 2;
 
 var IMAGES_BEING_DISPLAYED = 21;
 var MIN_DISTANCE = 100;
-var TREND_BOOST = 50;
+var TREND_BOOST = w/h*99;
 
 //var vertices = d3.range(30).map(function(d) {
 //  return [Math.random() * w, Math.random() * h];
@@ -32,6 +32,7 @@ function createVertices () {
   	}
   	if(!min_dist || min_dist > MIN_DISTANCE) createdVertices.push(new_point);
   };*/
+  //orderVeriticesByClick({clientX:w/2, clientY:h/2},createdVertices);
   return createdVertices
 }
 
@@ -63,6 +64,34 @@ function getRandomArbitrary (min, max) {
 function getRandomInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+function getNearestVerticesByClick(click) {
+  var distanceVertices = {};
+  var distances = [];
+  for (var i = 0; vertices.length > i; i++) {
+    var diffX = click.clientX - vertices[i][0];
+    var diffY = click.clientY - vertices[i][1];
+    var distance = Math.sqrt(Math.pow(diffX,2)+Math.pow(diffY,2));
+    distances.push(distance);
+    distanceVertices[distance] = vertices[i];
+  };
+  distances.sort().slice(0,3)
+  for (var i = 0; distances.length > i; i++) {
+    if (distanceVertices[distances[i]][0] < click.clientX )//(diffX>0)
+      distanceVertices[distances[i]][0] = distanceVertices[distances[i]][0] + TREND_BOOST;
+    else
+      distanceVertices[distances[i]][0] = distanceVertices[distances[i]][0] - TREND_BOOST;
+    if (distanceVertices[distances[i]][1] < click.clientY )//(diffY> 0)
+      distanceVertices[distances[i]][1] = distanceVertices[distances[i]][1] - TREND_BOOST;
+    else
+      distanceVertices[distances[i]][1] = distanceVertices[distances[i]][1] + TREND_BOOST;
+  }
+  vertices = [];
+  for(var distKey in distanceVertices){
+    vertices.push(distanceVertices[distKey])
+  }
+}
+
 var svg = d3.select("#chart")
     .append("svg")
       .attr("width", w)
@@ -74,7 +103,10 @@ var svg = d3.select("#chart")
   $('.photo')
     .attr({height:h, width:w})
     .attr("clip-path", function(d,i) {return "url(#id"+ (count++) +")" })
-    .prependTo('#root');
+    .prependTo('#root')
+    .on('click',function(e) {
+      getNearestVerticesByClick(e);
+        });
 
   svg.selectAll("path")
       .data(d3.geom.voronoi(vertices))
@@ -82,7 +114,7 @@ var svg = d3.select("#chart")
       .attr("id", function(d, i) { return i ? "id" + i : null; })
       .append("path")
         .attr("class", function(d, i) { return i ? "q" + (i % 9) + "-9" : null; })
-        .attr("d", function(d) { return "M" + d.join("L") + "Z"; });
+        .attr("d", function(d) { return "M" + d.join("L") + "Z"; })
 
 /*  svg.selectAll("borderPath")
     .data(d3.geom.voronoi(vertices))
@@ -90,11 +122,11 @@ var svg = d3.select("#chart")
     .attr("d", function(d) { return "M" + d.join("L") + "Z"; });*/
         
 
-  svg.selectAll("circle")
+ /* svg.selectAll("circle")
       .data(vertices.slice(1))
     .enter().append("circle")
       .attr("transform", function(d) { return "translate(" + d + ")"; })
-      .attr("r", 10);
+      .attr("r", 10);*/
    
 
 var t = 0.0; 
