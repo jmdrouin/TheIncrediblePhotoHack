@@ -6,6 +6,7 @@ $(function () {
 })
 var round = 0;
 var photos = {};
+var photo_keys = [];
 
 function startLoadingPhotos () {
   loadPhotos();
@@ -33,9 +34,8 @@ function loadPhotos () {
   })
 }
 
-var photo_keys = [];
-
 function orderPhotos() {
+  photo_keys = [];
   for (var k in photos)photo_keys.push(k);
   photo_keys.sort(function(a,b){return photos[a].likes - photos[b].likes}).reverse();
   localStorage.setItem('photos_sorted', JSON.stringify(photo_keys));
