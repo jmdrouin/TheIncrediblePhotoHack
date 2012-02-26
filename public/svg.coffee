@@ -18,6 +18,14 @@ class SvgView extends View
 class PhotoView extends SvgView
     constructor: (@file, attributes, @keep_low=false) ->
         attributes['xlink:href'] = @file
+        attributes =
+            r: 8
+            'stroke': 'black'
+            'fill': 'black'
+            'stroke-width':5
+            cx: 20
+            cy: 20
+
         super('image', attributes, @keep_low)
 
 class WindowView extends View
@@ -29,7 +37,7 @@ class WindowView extends View
             r: 8
             'stroke': 'black'
             'fill': 'black'
-            'stroke-width':1
+            'stroke-width':0
             cx: 20
             cy: 20
         p = new SvgView('circle', attributes)

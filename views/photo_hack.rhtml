@@ -1,10 +1,13 @@
-<h1>Hello</h1><span id='loading' style='display:none'>Loading...</span>
+
 <input type='hidden' value='<%= params[:album_id]%>' id='album_id'>
 
-    <div id="chart"></div>
+    <div id="chart">
+      <div id="borders"></div>
+    </div>
     <svg>
       <% 20.times do |i| %>
         <image class="photo" xlink:href="test.jpg" id="im<%= i %>"></image>
       <% end %>
     </svg>
     <script type="text/javascript" src="voronoi.js"></script>
+<span id='loading' style='display:none'>Loading...</span>

@@ -55,6 +55,14 @@
       this.file = file;
       this.keep_low = keep_low != null ? keep_low : false;
       attributes['xlink:href'] = this.file;
+      attributes = {
+        r: 8,
+        'stroke': 'black',
+        'fill': 'black',
+        'stroke-width': 5,
+        cx: 20,
+        cy: 20
+      };
       PhotoView.__super__.constructor.call(this, 'image', attributes, this.keep_low);
     }
 
@@ -74,7 +82,7 @@
         r: 8,
         'stroke': 'black',
         'fill': 'black',
-        'stroke-width': 1,
+        'stroke-width': 0,
         cx: 20,
         cy: 20
       };

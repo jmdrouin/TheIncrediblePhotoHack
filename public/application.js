@@ -1,8 +1,5 @@
 $(function () {
-
-  $('h1').click(function() {
     startLoadingPhotos();
-  })
 })
 var round = 0;
 var photos = {};
@@ -22,6 +19,13 @@ function loadPhotos () {
       orderPhotos();
       $('.photo').attr("xlink:href", function(i,d) {
         return photos[photo_keys[i+3]].photoUrl
+      });
+      d3.select("#chart").selectAll("path")
+      .attr("photo_id", function(d,i) {
+        return photo_keys[i+3]
+      })
+      .attr("trend", function(d,i) {
+        return photos[photo_keys[i+3]].trend
       });
 
     },
@@ -49,6 +53,10 @@ function addPhotos(data) {
     photo.id = photoRaw.id;
     photo.likes = photoRaw.totalLikes;
     photo.comments = photoRaw.totalComments;
+    if (photos[photoRaw.id]) {
+      var oldPhoto = photos[photoRaw.id];
+      photo.trend = photo.likes + photo.comments - oldPhoto.likes + oldPhoto.comments
+    }
     photos[photoRaw.id] = photo;
     localStorage.setItem( photoRaw.id, JSON.stringify(photo));
   }

@@ -1,19 +1,29 @@
-//var w = document.body.clientWidth - 2, h = document.body.clientHeight - 2;
-var w = 1000, h = 500;
+var w = document.body.clientWidth - 2, h = document.body.clientHeight - 2;
+//var w = 500, h = 500;
 
 var IMAGES_BEING_DISPLAYED = 21;
 var MIN_DISTANCE = 100;
+var TREND_BOOST = 50;
 
 //var vertices = d3.range(30).map(function(d) {
 //  return [Math.random() * w, Math.random() * h];
 //});
 
 function createVertices () {
-  /*var createdVertices = d3.range(30).map(function(d) {
-    return [Math.random() * w, Math.random() * h];
-  });*/
   var createdVertices = []
-  for(var j = 0; j < IMAGES_BEING_DISPLAYED; j++) {
+  mul = Math.round(IMAGES_BEING_DISPLAYED/4)
+  for(var j = 0; j < mul; j++) {
+    wP = w/(mul+1);
+    createdVertices.push([wP+ j*wP, getRandomInt(h/10,h/5)]);
+    createdVertices.push([wP+ j*wP, h- getRandomInt(h/10,h/5)]);
+  }
+  for(var j = 0; j < mul; j++) {
+    hP = h/(mul+1);
+    createdVertices.push([getRandomInt(w/10,w/5), hP+ j*hP]);
+    createdVertices.push([w- getRandomInt(w/10,w/5), hP+ j*hP]);
+  }
+  createdVertices.push([w/2, h/2]);
+  /*for(var j = 0; j < IMAGES_BEING_DISPLAYED; j++) {
   	var new_point = [Math.random() * w, Math.random() * h];
   	var min_dist = 1000;
   	for(var j in createdVertices) {
@@ -21,7 +31,7 @@ function createVertices () {
   		if(!min_dist || distance < min_dist) min_dist = distance;
   	}
   	if(!min_dist || min_dist > MIN_DISTANCE) createdVertices.push(new_point);
-  };
+  };*/
   return createdVertices
 }
 
@@ -74,15 +84,22 @@ var svg = d3.select("#chart")
         .attr("class", function(d, i) { return i ? "q" + (i % 9) + "-9" : null; })
         .attr("d", function(d) { return "M" + d.join("L") + "Z"; });
 
+/*  svg.selectAll("borderPath")
+    .data(d3.geom.voronoi(vertices))
+  .enter().append("path")
+    .attr("d", function(d) { return "M" + d.join("L") + "Z"; });*/
+        
+
   svg.selectAll("circle")
       .data(vertices.slice(1))
     .enter().append("circle")
       .attr("transform", function(d) { return "translate(" + d + ")"; })
-      .attr("r", 20);
+      .attr("r", 10);
+   
 
 var t = 0.0; 
 d3.timer(function() { 
-    console.log(vertices[0][0]);  
+    //console.log(vertices[0][0]);  
     //console.log(d3.interpolateNumber(-1, 2) (t)); 
    
     for (var i = 0; i < IMAGES_BEING_DISPLAYED; i++ ) { 
