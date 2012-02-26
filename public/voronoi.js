@@ -106,6 +106,7 @@ var svg = d3.select("#chart")
     .prependTo('#root')
     .on('click',function(e) {
       getNearestVerticesByClick(e);
+      //replacePhotos();
         });
 
   svg.selectAll("path")
@@ -141,9 +142,10 @@ d3.timer(function() {
     
     t = t + 0.01; 
     
-    if (t >= 1) { 
+    if (t >= 1.3) { 
         t = 0; 
-        getNewPoints(); 
+        getNewPoints();
+        replacePhotos();
         }
 
     svg.selectAll("path")

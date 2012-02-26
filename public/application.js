@@ -9,29 +9,36 @@ function startLoadingPhotos () {
   loadPhotos();
 }
 
+function replacePhotos () {
+  $('.photo').attr("xlink:href", function(i,d) {
+    var url = photos[photo_keys[i+5]].photoUrl;
+    var pk = photo_keys.shift();
+    photo_keys.push(pk);
+    return url
+  });
+  d3.select("#chart").selectAll("path")
+  .attr("photo_id", function(d,i) {
+    return photo_keys[i+5]
+  })
+  .attr("trend", function(d,i) {
+    return photos[photo_keys[i+5]].trend
+  });
+  //setTimeout(replacePhotos, 3000);
+}
 function loadPhotos () {
   $.ajax({
-    url: 'https://www.eyeem.com/api/v2/albums/' + $('#album_id').val() + '/photos?limit=100&detailed=1&client_id=vn8HBPeioY1c5fhKEWipZtBqOhxT1cg5',
+    url: 'https://www.eyeem.com/api/v2/albums/' + $('#album_id').val() + '/photos?limit=200&detailed=1&client_id=vn8HBPeioY1c5fhKEWipZtBqOhxT1cg5',
     success: function (data) {
       $('#loading').hide();
       addPhotos(data);
       round += 1;
       orderPhotos();
-      $('.photo').attr("xlink:href", function(i,d) {
-        return photos[photo_keys[i+3]].photoUrl
-      });
-      d3.select("#chart").selectAll("path")
-      .attr("photo_id", function(d,i) {
-        return photo_keys[i+3]
-      })
-      .attr("trend", function(d,i) {
-        return photos[photo_keys[i+3]].trend
-      });
+      replacePhotos();
 
     },
-    complete: function() {
-      setTimeout(loadPhotos, 120000);
-    },
+/*   complete: function() {
+      setTimeout(replacePhotos, 60000);
+    },*/
     beforeSend: function() {
       $('#loading').show();
     }
