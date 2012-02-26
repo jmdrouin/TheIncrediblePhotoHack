@@ -58,8 +58,7 @@ var svg = d3.select("#chart")
       .attr("width", w)
       .attr("id", "root")
       .attr("height", h)
-      .attr("class", "PiYG")
-      .on("mousemove", update);
+      .attr("class", "PiYG");
 
   var count = 1;
   $('.photo')
@@ -67,6 +66,13 @@ var svg = d3.select("#chart")
     .attr("clip-path", function(d,i) {return "url(#id"+ (count++) +")" })
     .prependTo('#root');
 
+  svg.selectAll("path")
+      .data(d3.geom.voronoi(vertices))
+    .enter().append("clipPath")
+      .attr("id", function(d, i) { return i ? "id" + i : null; })
+      .append("path")
+        .attr("class", function(d, i) { return i ? "q" + (i % 9) + "-9" : null; })
+        .attr("d", function(d) { return "M" + d.join("L") + "Z"; });
 
   svg.selectAll("circle")
       .data(vertices.slice(1))
@@ -92,13 +98,10 @@ d3.timer(function() {
         }
 
     svg.selectAll("path")
-      .data(d3.geom.voronoi(vertices))
-    .enter().append("clipPath")
-      .attr("id", function(d, i) { return i ? "id" + i : null; })
-      .append("path")
-        .attr("class", function(d, i) { return i ? "q" + (i % 9) + "-9" : null; })
-        .attr("d", function(d) { return "M" + d.join("L") + "Z"; });
-
+      .data(d3.geom.voronoi(vertices)
+      .map(function(d) { return "M" + d.join("L") + "Z"; }))
+      .filter(function(d) { return this.getAttribute("d") != d; })
+      .attr("d", function(d) { return d; });
   return false; 
 }); 
 
