@@ -1,5 +1,5 @@
 var w = document.body.clientWidth - 2, h = document.body.clientHeight - 2;
-//var w = 500, h = 500;
+var w = 500, h = 500;
 
 var IMAGES_BEING_DISPLAYED = 21;
 var MIN_DISTANCE = 100;
@@ -123,7 +123,7 @@ var svg = d3.select("#chart")
     .attr("d", function(d) { return "M" + d.join("L") + "Z"; });*/
         
 
- /* svg.selectAll("circle")
+/*  svg.selectAll("circle")
       .data(vertices.slice(1))
     .enter().append("circle")
       .attr("transform", function(d) { return "translate(" + d + ")"; })
