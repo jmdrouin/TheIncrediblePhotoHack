@@ -155,7 +155,3 @@ d3.timer(function() {
       .attr("d", function(d) { return d; });
   return false; 
 }); 
-
-
-function update() {
-}

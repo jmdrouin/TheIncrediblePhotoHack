@@ -1,0 +1,13 @@
+<div id='head'>
+  <span id='logo'>Vorollrli</span>
+  <span id='about'>About</span>
+</div>
+
+<div class='search'>
+  <input type='text' id='album_search' placeholder="Search for an album">
+  <ul id='albums_list'>
+    <% @recommendations['albums']['items'].each do |album| %>
+      <li><a href="/eyeem/<%=album['id']%>"><%=album['name']%></a></li>
+    <% end %>
+  </ul>
+</div>

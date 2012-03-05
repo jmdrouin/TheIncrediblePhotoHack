@@ -17,11 +17,68 @@ path {
 body {
   padding: 0px;
   margin: 0px;
-  background-color: black;
+  background-color: #1e1e1e;
+  color: white;
+  font-family: 'Comfortaa', cursive;
 }
 
 circle {
   fill: #ccc;
   stroke: #000;
   pointer-events: none;
+}
+
+.search {
+  width: 400px;
+}
+.search input {
+  width: 100%;
+  margin: 20px;
+  height: 40px;
+  font-size: 16px;
+  font-family: 'Comfortaa', cursive;
+  padding: 5px;
+  background-color: #2f2f2f;
+  color: #DFE417;
+  border: 0px;
+}
+
+.search ul {
+  text-align: left;
+  list-style-type: none;
+  font-size: 16px;
+}
+.search ul li {
+  padding: 5px;
+}
+
+a {
+  color: #DFE417;
+  text-decoration: none;
+
+}
+
+a:hover {
+  color: #97993D;
+}
+
+#head {
+  padding: 25px;
+}
+#head #about {
+  float: right;
+  font-size:16px;
+}
+
+#head a {
+  color: white;
+}
+
+#head a:hover{
+  color: #97993D;
+}
+
+#head #logo {
+  margin: 0px;
+  font-size: 30px;
 }
