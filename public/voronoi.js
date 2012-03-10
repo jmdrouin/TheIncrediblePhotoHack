@@ -130,28 +130,31 @@ var svg = d3.select("#chart")
       .attr("r", 10);*/
    
 
-var t = 0.0; 
-d3.timer(function() { 
-    //console.log(vertices[0][0]);  
-    //console.log(d3.interpolateNumber(-1, 2) (t)); 
-   
-    for (var i = 0; i < IMAGES_BEING_DISPLAYED; i++ ) { 
-        vertices[i][0] = d3.interpolateNumber(vertices[i][0], newVertices[i][0]) (t); // vertices[i][0] + 0.2 * Math.sin(2*Math.PI*t + getRandomInt(-Math.random() * 5, Math.random() * 5) ); //+ getRandomArbitrary(-1, 1);
-        vertices[i][1] = d3.interpolateNumber(vertices[i][1], newVertices[i][1]) (t); // vertices[i][1] + 0.2 * Math.cos(2*Math.PI*t + getRandomInt(-Math.random() * 5, Math.random() * 5) ); //+ getRandomArbitrary(-1, 1);
-    } 
-    
-    t = t + 0.01; 
-    
-    if (t >= 1.3) { 
-        t = 0; 
-        getNewPoints();
-        replacePhotos();
-        }
+var t = 0.0;
+function moving () {
+  d3.timer(function() { 
+      //console.log(vertices[0][0]);  
+      //console.log(d3.interpolateNumber(-1, 2) (t)); 
+     
+      for (var i = 0; i < IMAGES_BEING_DISPLAYED; i++ ) { 
+          vertices[i][0] = d3.interpolateNumber(vertices[i][0], newVertices[i][0]) (t); // vertices[i][0] + 0.2 * Math.sin(2*Math.PI*t + getRandomInt(-Math.random() * 5, Math.random() * 5) ); //+ getRandomArbitrary(-1, 1);
+          vertices[i][1] = d3.interpolateNumber(vertices[i][1], newVertices[i][1]) (t); // vertices[i][1] + 0.2 * Math.cos(2*Math.PI*t + getRandomInt(-Math.random() * 5, Math.random() * 5) ); //+ getRandomArbitrary(-1, 1);
+      } 
+      
+      t = t + 0.01; 
+      if (t >= 1) 
+        {console.log(t)}
+      if (t >= 1.1) { 
+          t = 0.0; 
+          getNewPoints();
+          //replacePhotos();
+          }
 
-    svg.selectAll("path")
-      .data(d3.geom.voronoi(vertices)
-      .map(function(d) { return "M" + d.join("L") + "Z"; }))
-      .filter(function(d) { return this.getAttribute("d") != d; })
-      .attr("d", function(d) { return d; });
-  return false; 
-}); 
+      svg.selectAll("path")
+        .data(d3.geom.voronoi(vertices)
+        .map(function(d) { return "M" + d.join("L") + "Z"; }))
+        .filter(function(d) { return this.getAttribute("d") != d; })
+        .attr("d", function(d) { return d; });
+    return false; 
+  });
+}

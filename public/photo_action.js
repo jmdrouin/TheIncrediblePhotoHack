@@ -12,8 +12,8 @@ function startLoadingPhotos () {
 function replacePhotos () {
   $('.photo').attr("xlink:href", function(i,d) {
     var url = photos[photo_keys[i]].photoUrl;
-    var pk = photo_keys.shift();
-    photo_keys.push(pk);
+    //var pk = photo_keys.shift();
+    //photo_keys.push(pk);
     return url
   });
   d3.select("#chart").selectAll("path")
@@ -34,6 +34,7 @@ function loadPhotos () {
       round += 1;
       orderPhotos();
       replacePhotos();
+      moving();
 
     },
     /* complete: function() {

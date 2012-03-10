@@ -10,7 +10,7 @@ config_file 'config/services.yml'
 #conn = Faraday.new(:url => 'https://www.eyeem.com/api/v2/', :params => {:client_id => settings.eyeem.client_id}
 
 get '/' do
-  eyeem = EyeEmConnector.new(settings.eyeem['client_id'])
+  eyeem = EyeEmConnector.new(ENV['EYEEM_CLIENT_ID']||settings.eyeem['client_id'])
   @recommendations = eyeem.albums_recommended(:limit => 5)
   erb :home
 end
