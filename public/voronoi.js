@@ -117,8 +117,6 @@ function moving () {
       
     t = t + 0.01;
 
-    if (t >= 1) {console.log(t)}
-
     if (t >= 1.1) {
       t = 0.0;
       getNewPoints();
@@ -130,16 +128,40 @@ function moving () {
       .filter(function(d) { return this.getAttribute("d") != d; })
       .attr("d", function(d) { return d; });
 
-    return false; 
+    resize(1.5);
+
+    return false;
   });
 }
 
+var zz;
+function resize (ratio) {
+    zz = [];
+    var count = 1;
+    $('.photo').each(function() {
+        path = $( $("#id" + (count++))[0].childNodes[0] );
+        d = path.attr('d').match( /\d+(\.\d+)?/gi );
+        
+        x_min = w
+        x_max = 0
+        y_min = h
+        y_max = 0
 
-function resize () {
+        for(i=0;i<d.length;i=i+2) {
+            x = parseFloat( d[i]   );
+            y = parseFloat( d[i+1] );
+            
+            if (x < x_min && x > 0) {x_min = x}
+            if (y < y_min && y > 0) {y_min = y}
+            if (x > x_max && x < w) {x_max = x}
+            if (y > y_max && y < h) {y_max = y}
+        }
 
-  var count = 1;
-  $('.photo')
-    .attr({height:10, width:10})
-    .attr("clip-path", function(d,i) {return "url(#id"+ (count++) +")" })
+        $(this).attr({position: 'absolute' });
 
+        side = Math.max(x_max - x_min, y_max - y_min);
+        margin = side * (ratio - 1) / 2;
+
+        $(this).attr({x:x_min-margin, y:y_min-margin, height: side*ratio, width:side*ratio});
+    })
 }
