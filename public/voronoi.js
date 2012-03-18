@@ -133,3 +133,13 @@ function moving () {
     return false; 
   });
 }
+
+
+function resize () {
+
+  var count = 1;
+  $('.photo')
+    .attr({height:10, width:10})
+    .attr("clip-path", function(d,i) {return "url(#id"+ (count++) +")" })
+
+}
