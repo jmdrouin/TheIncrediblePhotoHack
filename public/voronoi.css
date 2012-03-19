@@ -28,12 +28,9 @@ circle {
   pointer-events: none;
 }
 
-.search {
-  width: 400px;
-}
 .search input {
-  width: 100%;
-  margin: 20px;
+  width: 90%;
+  margin: 0px 5% 0px 5%;
   height: 40px;
   font-size: 16px;
   font-family: 'Comfortaa', cursive;
@@ -61,11 +58,17 @@ a {
 a:hover {
   color: #97993D;
 }
+#main {
+  width:400px;
+  top: 5px;
+  margin: auto;
+}
 
 #head {
   padding: 25px;
 }
 #head #about {
+  padding-top:14px;
   float: right;
   font-size:16px;
 }

@@ -36,26 +36,15 @@ get '/search/eyeem/albums' do
   eyeem.albums(:q => params[:q], :limit => 5, :minPhotos => 10).to_json
 end
 
-get '/svg.js' do
-  coffee :svg 
-  
+get '/about' do
+  erb :about
 end
 
-get '/processing_tests' do
-  erb :processing_tests
+helpers do
+  def partial(page, options={})
+    erb page, options.merge!(:layout => false)
+  end
 end
 
 
-get '/svg' do
-  erb :svg
-end
 
-get '/voronoi' do
-
-  erb :voronoi 
-  
-end
-
-get '/:album_id' do
-  erb :photo_hack 
-end
